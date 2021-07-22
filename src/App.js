@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import LandingPageVideo from './Components/LandingPageVideo/landingPageVideo';
+import NavBar from './Components/Navbar/navBar';
+import SearchBar from './Components/SearchBar/searchBar';
 
 class App extends Component {
   constructor(props) {
@@ -8,7 +11,9 @@ class App extends Component {
   render() { 
     return (
       <div>
-      <h1>Hello World</h1>
+        <NavBar />
+      <LandingPageVideo />
+      <SearchBar />
     </div>
     );
   }
