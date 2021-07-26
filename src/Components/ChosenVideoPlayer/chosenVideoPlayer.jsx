@@ -6,7 +6,6 @@ class ChosenVideoPlayer extends Component {
     super(props);
     this.state = {
       loading: true,
-      relatedVideos: [],
       key: 'AIzaSyC9cwy6-96d7rXbAtyRO5DkUyJ-y62rCNs',
     };
     console.log(props)
@@ -18,14 +17,6 @@ class ChosenVideoPlayer extends Component {
     console.log(this.props.selectedVideo)
   }
 
-//   relatedVideos = async () => {
-//     let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${this.props.currentVideo.id}&type=video&maxResults=18&key=${this.state.Key}`)
-//     console.log(response);
-//     this.setState({
-//       relatedVideos: response.data.items,
-//       loading: false,
-//     })
-// }
   
   render() {
     if (this.state.loading) return null;
