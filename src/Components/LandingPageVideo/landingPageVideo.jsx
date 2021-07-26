@@ -1,27 +1,43 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Nav } from 'react-bootstrap';
 
-
-class LandingPageVideo extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        }
-    }
-
-    render() { 
-        return (
-            <React.Fragment>
+const LandingPageVideo = (props) => {
+    // We were going to pass props.videoId...
+    return ( 
+        <React.Fragment>
             <div>
-            <iframe id="player" type="text/html" width="640" height="390"
-            src={`http://www.youtube.com/embed/${this.props.videoId}?enablejsapi=1&origin=http://example.com`}
-            frameBorder="0"></iframe>
-                <h2>Joe Rogan</h2>
-                    <h3>Super Kicks...</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Search Results</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        props.searchResults.map((video) => {
+                            return(
+                                <React.Fragment key={video.id.videoId}>
+                                <tr>
+                                    <td><h1 className="lead">{video.snippet.title}</h1></td>
+                                    <td><h2 className="lead">{video.snippet.description}</h2></td>
+                                    <td>
+                                        <button>
+                                            <img onClick={props.requestedVideo(video.id.videoId)} 
+                                            src={video.snippet.thumbnails.default.url} />   
+                                        </button>
+                                    </td>
+                                </tr>
+                                </React.Fragment>
+                            )
+                        })
+                    }
+                    </tbody>
+                </table>
             </div>
-            
        </React.Fragment>
-        );
-    }
+    );
 }
  
 export default LandingPageVideo;

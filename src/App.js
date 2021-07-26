@@ -4,72 +4,75 @@ import NavBar from './Components/Navbar/navBar';
 import SearchBar from './Components/SearchBar/searchBar';
 import axios from 'axios';
 import RelatedVideos from './Components/RelatedVideos/relatedVideos';
+import CommentSection from './Components/CommentSection/commentSection';
+import ChosenVideoPlayer from './Components/ChosenVideoPlayer/chosenVideoPlayer';
 
 class App extends Component {
   constructor(props) {
     super(props);
+    this.videoId = '';
     this.state = { 
-      searchRequest: '',
+      searchRequest: '', // Initial search from handleSubmit
       searchResults: [],
-      videoId: '',
-      key: 'AIzaSyAW4J8aCUKUlG53KUBCZqhhDNl4v_wt4wE'
+      currentVideos: [],
+      key: 'AIzaSyC9cwy6-96d7rXbAtyRO5DkUyJ-y62rCNs'
     }
   }
 
-  componentDidMount = () => {
-    this.getVideoByID();
+  getSearchResults = async searchTerm => {
+    try {
+      let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${searchTerm}&type=video&videoDuration=long&maxResults=10&key=${this.state.key}`)
+      let tempVideos = response.data.items // Array of 10 
+      this.setState({
+        searchResults: tempVideos // Getting the random video for landing page.
+      })
+    } catch (err) {
+      console.log("An error has occurred.");
+    }
+    
   }
 
-  getSearchResults = async (searchTerm) => {
-    let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${searchTerm}&type=video&videoDuration=long&maxResults=10&key=${this.state.key}`)
-    let tempVideo = response.data.items
+  relatedVideos = async () => { 
+  /**
+   * The main screen on landing page. Has a video id that is passed into the axios.get url via this.state.videoId.
+   * Populates an array of 5 other videos related to the current video displaying.
+   */
+    let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=5&relatedToVideoId=${this.props.videoId}&key=${this.state.key}`)
+    console.log(response.data.items);
+    let tempVideos = response.data.items;
     this.setState({
-      searchResults: tempVideo // Getting the random video for landing page.
+      currentVideos: tempVideos // Gets an array of 5 videos to display in render.
     })
   }
 
-  getVideoByID = async () => {
-    let choices = ['gaming', 'news', 'trending', 'dogs']
-    let rand = Math.floor(Math.random() * 4);
-    let temp = '';
-    for (let index = 0; index < choices.length; index++) {
-      if (choices[index] === choices[rand]) {
-        temp = choices[index];
-      }
-    }
-    // console.log(this.state.landingPageDefault); // 'gaming' or 'news'...
-    let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${temp}&type=video&videoDuration=long&maxResults=1&key=${this.state.key}`)
-    let tempVideo = response.data.items[0].id.videoId
+  requestedVideo = id => {
+    this.videoId = id;
+    console.log(this.videoId);
+  }
+
+  handleChange = (event) => {
     this.setState({
-      videoId: tempVideo // Getting the random video for landing page.
+      searchRequest: event.target.value // a dog
     })
   }
 
   handleSubmit = (event) => {
-    // get parameter
     event.preventDefault()
+    // get parameter
     this.getSearchResults(this.state.searchRequest)
   }
 
-  handleChange = (event) => {
-    // this.getSearchResults(event.target.value);
-    this.setState({
-      searchRequest: event.target.value
-    })
-    // this.filterSearch(event.target.value);
-    // console.log(event.target.value);
-  }
-
-
   render() {
-    console.log(this.state.searchRequest)
-    console.log(this.state.searchResults)
+    // console.log(this.state.searchRequest) // Search Term
+    // console.log(this.state.searchResults) // Search Array of 10 videos
     return (
       <div>
         <NavBar />
-        <LandingPageVideo videoId={this.state.videoId} />
-        <RelatedVideos videoId={this.state.videoId}/>
-        <SearchBar handleChange={this.handleChange} getSearchResults={this.getSearchResults} handleSubmit={this.handleSubmit}/>
+        <RelatedVideos currentVideos={this.state.currentVideos} />
+        <LandingPageVideo searchResults={this.state.searchResults} requestedVideo={this.requestedVideo} />
+        <ChosenVideoPlayer videoId={this.videoId} />
+        <SearchBar handleChange={this.handleChange} handleSubmit={this.handleSubmit} searchRequest={this.searchRequest} />
+        <CommentSection />
     </div>
     );
   }
