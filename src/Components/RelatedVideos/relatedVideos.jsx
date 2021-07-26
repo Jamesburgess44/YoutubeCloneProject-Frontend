@@ -6,7 +6,7 @@ class RelatedVideos extends Component {
         super(props);
         this.state = {
             currentVideos: [],
-            key: 'AIzaSyCd7FQZqAY6rYQg9E4vHWrUGC2lYtLkV-8',
+            key: 'AIzaSyAW4J8aCUKUlG53KUBCZqhhDNl4v_wt4wE',
         }
     }
 
@@ -19,7 +19,7 @@ class RelatedVideos extends Component {
          * The main screen on landing page. Has a video id that is passed into the axios.get url via this.state.videoId.
          * Populates an array of 5 other videos related to the current video displaying.
          */
-        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=5&relatedToVideoId=Q8KSbct14DI&key=${this.state.key}`)
+        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=5&relatedToVideoId=${this.props.videoId}&key=${this.state.key}`)
         console.log(response.data.items);
         this.setState({
         currentVideos: response.data.items // Gets an array of five videos to display in render.
@@ -28,7 +28,7 @@ class RelatedVideos extends Component {
 
 
     render() { 
-        console.log(this.props.videoId)
+        //console.log(this.props.videoId)
         return (
             <React.Fragment>
     <div>
@@ -39,7 +39,7 @@ class RelatedVideos extends Component {
             </thead>
             <td>
             {
-                this.state.currentVideos.map((video) => {
+                this.state.currentVideos.map((video,index) => {
                     return(
                         <React.Fragment key={video.videoId}>
                             <h1>Video Title</h1>

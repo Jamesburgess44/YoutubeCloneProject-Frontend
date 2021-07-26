@@ -4,9 +4,11 @@ import React from 'react';
 // import { Button } from 'react-bootstrap';
 
 const SearchBar = (props) => {  
+
+
   return (
     <React.Fragment>
-      <form>
+      <form onSubmit={props.handleSubmit}>
         <input type="text" 
         name="searchRequest" 
         placeholder="Search..." 

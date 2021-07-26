@@ -12,7 +12,7 @@ class App extends Component {
       searchRequest: '',
       searchResults: [],
       videoId: '',
-      key: 'AIzaSyCd7FQZqAY6rYQg9E4vHWrUGC2lYtLkV-8'
+      key: 'AIzaSyAW4J8aCUKUlG53KUBCZqhhDNl4v_wt4wE'
     }
   }
 
@@ -20,12 +20,14 @@ class App extends Component {
     this.getVideoByID();
   }
 
-    /* 
-  filterSearch = () => {
-
+  getSearchResults = async (searchTerm) => {
+    let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${searchTerm}&type=video&videoDuration=long&maxResults=10&key=${this.state.key}`)
+    let tempVideo = response.data.items
+    this.setState({
+      searchResults: tempVideo // Getting the random video for landing page.
+    })
   }
-  */
-  
+
   getVideoByID = async () => {
     let choices = ['gaming', 'news', 'trending', 'dogs']
     let rand = Math.floor(Math.random() * 4);
@@ -43,20 +45,31 @@ class App extends Component {
     })
   }
 
+  handleSubmit = (event) => {
+    // get parameter
+    event.preventDefault()
+    this.getSearchResults(this.state.searchRequest)
+  }
 
   handleChange = (event) => {
+    // this.getSearchResults(event.target.value);
+    this.setState({
+      searchRequest: event.target.value
+    })
     // this.filterSearch(event.target.value);
     // console.log(event.target.value);
   }
 
 
-  render() { 
+  render() {
+    console.log(this.state.searchRequest)
+    console.log(this.state.searchResults)
     return (
       <div>
         <NavBar />
         <LandingPageVideo videoId={this.state.videoId} />
         <RelatedVideos videoId={this.state.videoId}/>
-        <SearchBar handleChange={this.handleChange} />
+        <SearchBar handleChange={this.handleChange} getSearchResults={this.getSearchResults} handleSubmit={this.handleSubmit}/>
     </div>
     );
   }
