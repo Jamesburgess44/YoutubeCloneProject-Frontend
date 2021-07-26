@@ -1,5 +1,4 @@
 import React from 'react';
-import { Nav } from 'react-bootstrap';
 
 const LandingPageVideo = (props) => {
     // We were going to pass props.videoId...
@@ -24,7 +23,7 @@ const LandingPageVideo = (props) => {
                                     <td><h2 className="lead">{video.snippet.description}</h2></td>
                                     <td>
                                         <button>
-                                            <img onClick={props.requestedVideo(video.id.videoId)} 
+                                            <img onClick={() => {props.setVideo(video)}} 
                                             src={video.snippet.thumbnails.default.url} />   
                                         </button>
                                     </td>
