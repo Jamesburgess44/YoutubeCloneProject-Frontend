@@ -4,7 +4,8 @@ import NavBar from './Components/Navbar/navBar';
 import SearchBar from './Components/SearchBar/searchBar';
 import SearchResults from './Components/SearchResults/searchResults';
 import RelatedVideos from './Components/RelatedVideos/relatedVideos';
-import { isCompositeComponent } from 'react-dom/test-utils';
+import DisplayComments from './Components/DisplayComments/displayComments';
+import AddComment from './Components/AddComment/addComment';
 
 class App extends Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class App extends Component {
       searchResults: [], 
       selectedVideo: [],
       relatedVideos: [],
+      allComments: [],
       defaultVideo: 'VE-_L3A45jo',
       title: '',
       description: '',
@@ -67,6 +69,14 @@ class App extends Component {
     })
   }
 
+  commentTable = async() => {
+    let response = await axios.get(`http://127.0.0.1:8000/youtube_app/`)
+        let temp = response.data
+        this.setState ({
+            allComments: temp,
+        });
+  }
+
   render() {
     console.log(this.state.defaultVideo);
     console.log(this.state.relatedVideos);
@@ -91,6 +101,8 @@ class App extends Component {
           </iframe>
           <h2>{this.state.description}</h2>
         </div>
+        <AddComment commentTable={this.commentTable} defaultVideo={this.state.defaultVideo} />
+        <DisplayComments allComments={this.state.allComments}/>
         <RelatedVideos relatedVideos={this.state.relatedVideos} setVideo={this.setVideo} /> 
       </div>
     );
