@@ -1,35 +1,28 @@
-import React from 'react';
-// import { Form } from 'react-bootstrap';
-// import { FormControl } from 'react-bootstrap';
-// import { Button } from 'react-bootstrap';
+import React, { useState } from "react";
 
-const SearchBar = (props) => {  
 
+const SearchBar = (props) => {
+
+  const [searchRequest, setSearchRequest] = useState('');
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(searchRequest); // Hello, Hi, ...
+    props.getSearchResults(searchRequest); // Back to App.js
+  }
 
   return (
     <React.Fragment>
-      <form onSubmit={props.handleSubmit}>
-        <input type="text" 
-        name="searchRequest" 
-        placeholder="Search..." 
-        onChange={props.handleChange}  
-        value={props.searchRequest} />
-        <input type="submit" id="request" value="Search"></input>
-      </form>
+        <form onSubmit={handleSubmit}>
+          <input type="text" 
+          name="searchRequest" 
+          placeholder="Search..." 
+          onChange={e => setSearchRequest(e.target.value)} 
+          value={searchRequest} />
+          <input type="submit" id="request" value="Search"></input>
+        </form>
     </React.Fragment>
   );
 }
 
 export default SearchBar;
-
-/*
-<Form className="d-flex">
-  <FormControl
-    type="search"
-    placeholder="Search"
-    className="mr-2"
-    aria-label="Search"
-  />
-  <Button variant="outline-success">Search</Button>
-</Form>
-*/

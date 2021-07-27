@@ -1,20 +1,18 @@
 import React from 'react';
-import { Nav } from 'react-bootstrap';
 
-const LandingPageVideo = (props) => {
-    // We were going to pass props.videoId...
-    return ( 
+const SearchResults = (props) => {
+    return (
         <React.Fragment>
-            <div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Search Results</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <table>
+                <thead>
+                    <tr></tr>
+                    <tr>
+                        <th>Search Results</th>
+                    </tr>
+                    <tr></tr>
+                </thead>
+                <tbody>
+                    <tr>
                     {
                         props.searchResults.map((video) => {
                             return(
@@ -24,7 +22,7 @@ const LandingPageVideo = (props) => {
                                     <td><h2 className="lead">{video.snippet.description}</h2></td>
                                     <td>
                                         <button>
-                                            <img onClick={props.requestedVideo(video.id.videoId)} 
+                                            <img onClick={() => props.setVideo(video)}
                                             src={video.snippet.thumbnails.default.url} />   
                                         </button>
                                     </td>
@@ -33,11 +31,11 @@ const LandingPageVideo = (props) => {
                             )
                         })
                     }
-                    </tbody>
-                </table>
-            </div>
-       </React.Fragment>
+                    </tr>
+                </tbody>
+            </table>
+        </React.Fragment>
     );
 }
  
-export default LandingPageVideo;
+export default SearchResults;
