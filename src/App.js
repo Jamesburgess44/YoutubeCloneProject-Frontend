@@ -84,15 +84,7 @@ class App extends Component {
     return (
       <React.Fragment>
       <NavBar />
-      
-        <div className="row">
-          <SearchBar searchRequest={this.state.searchRequest}
-          handleChange={this.handleChange} 
-          handleSubmit={this.handleSubmit} 
-          getSearchResults={this.getSearchResults} 
-          />
-        </div>
-        <div className="container-fluid">  
+      <div className="container-fluid">  
         <div className="row">
           <div className="col d-flex justify-content-center p-3">
             <h1>{this.state.title}</h1>
@@ -106,6 +98,14 @@ class App extends Component {
             <h2>{this.state.description}</h2>
           </div>
         </div>
+        <div className="row">
+          <SearchBar searchRequest={this.state.searchRequest}
+          handleChange={this.handleChange} 
+          handleSubmit={this.handleSubmit} 
+          getSearchResults={this.getSearchResults} 
+          />
+        </div>
+        
         <SearchResults searchResults={this.state.searchResults} setVideo={this.setVideo} />
         <AddComment commentTable={this.commentTable} defaultVideo={this.state.defaultVideo} />
         <DisplayComments allComments={this.state.allComments}/>
