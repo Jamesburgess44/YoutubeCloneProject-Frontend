@@ -1,6 +1,7 @@
 import React from 'react';
 
 const SearchResults = (props) => {
+    console.log(props.searchResults);
     return (
         <React.Fragment>
             <table>
