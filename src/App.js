@@ -82,29 +82,36 @@ class App extends Component {
     console.log(this.state.relatedVideos);
     let url = `https://www.youtube.com/embed/${this.state.defaultVideo}?autoplay=0`
     return (
-      <div>
-        <NavBar />
-        <SearchBar searchRequest={this.state.searchRequest}
-        handleChange={this.handleChange} 
-        handleSubmit={this.handleSubmit} 
-        getSearchResults={this.getSearchResults} 
-        />
-        <SearchResults searchResults={this.state.searchResults} setVideo={this.setVideo} />
-        <div className="text-center">
-          <h1>{this.state.title}</h1>
-          <iframe id="player" 
-          type="text/html" 
-          width="640" height="390"
-          src={url}
-          alt="Else Statement"
-          frameborder="0" > 
-          </iframe>
-          <h2>{this.state.description}</h2>
+      <React.Fragment>
+      <NavBar />
+      
+        <div className="row">
+          <SearchBar searchRequest={this.state.searchRequest}
+          handleChange={this.handleChange} 
+          handleSubmit={this.handleSubmit} 
+          getSearchResults={this.getSearchResults} 
+          />
         </div>
+        <div className="container-fluid">  
+        <div className="row">
+          <div className="col d-flex justify-content-center p-3">
+            <h1>{this.state.title}</h1>
+            <iframe id="player" 
+            type="text/html" 
+            width="640" height="390"
+            src={url}
+            alt="Else Statement"
+            frameborder="0" > 
+            </iframe>
+            <h2>{this.state.description}</h2>
+          </div>
+        </div>
+        <SearchResults searchResults={this.state.searchResults} setVideo={this.setVideo} />
         <AddComment commentTable={this.commentTable} defaultVideo={this.state.defaultVideo} />
         <DisplayComments allComments={this.state.allComments}/>
         <RelatedVideos relatedVideos={this.state.relatedVideos} setVideo={this.setVideo} /> 
       </div>
+      </React.Fragment>
     );
   }
 }

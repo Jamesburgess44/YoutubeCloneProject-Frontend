@@ -4,14 +4,8 @@ const SearchResults = (props) => {
     console.log(props.searchResults);
     return (
         <React.Fragment>
-            <table>
-                <thead>
-                    <tr></tr>
-                    <tr>
-                        <th>Search Results</th>
-                    </tr>
-                    <tr></tr>
-                </thead>
+            <div className="col d-flex justify-content-center">
+                <table>
                 <tbody>
                     <tr>
                     {
@@ -35,7 +29,9 @@ const SearchResults = (props) => {
                     }
                     </tr>
                 </tbody>
-            </table>
+                </table>
+            </div>
+            
         </React.Fragment>
     );
 }

@@ -13,6 +13,7 @@ const SearchBar = (props) => {
 
   return (
     <React.Fragment>
+      <div className="col d-flex justify-content-center">
         <form onSubmit={handleSubmit}>
           <input type="text" 
           name="searchRequest" 
@@ -21,6 +22,7 @@ const SearchBar = (props) => {
           value={searchRequest} />
           <input type="submit" id="request" value="Search"></input>
         </form>
+      </div>
     </React.Fragment>
   );
 }
