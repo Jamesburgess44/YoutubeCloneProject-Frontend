@@ -3,6 +3,8 @@ import axios from 'axios';
 import NavBar from './Components/Navbar/navBar';
 import SearchBar from './Components/SearchBar/searchBar';
 import SearchResults from './Components/SearchResults/searchResults';
+import RelatedVideos from './Components/RelatedVideos/relatedVideos';
+import { isCompositeComponent } from 'react-dom/test-utils';
 
 class App extends Component {
   constructor(props) {
@@ -10,6 +12,7 @@ class App extends Component {
     this.state = { 
       searchResults: [], 
       selectedVideo: [],
+      relatedVideos: [],
       defaultVideo: 'VE-_L3A45jo',
       title: '',
       description: '',
@@ -29,12 +32,25 @@ class App extends Component {
     } 
   }
 
+  getRelatedVideos = async (chosenVideoId) => {
+    try {
+      let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=5&relatedToVideoId=${chosenVideoId}&key=${this.state.key}`)
+      let tempVideoArray = response.data.items
+      this.setState({
+        relatedVideos: tempVideoArray
+      })
+    } catch (err) {
+      console.log(err);
+    } 
+  }
+
   setVideo = (video) => {
     this.setState({
       selectedVideo: video
     })
     this.collapseSearchResults();
     this.defineDefaultValues(video.id.videoId, video.snippet.title, video.snippet.description)
+    this.getRelatedVideos(video.id.videoId)
   }
 
   collapseSearchResults = () => {
@@ -53,6 +69,7 @@ class App extends Component {
 
   render() {
     console.log(this.state.defaultVideo);
+    console.log(this.state.relatedVideos);
     let url = `https://www.youtube.com/embed/${this.state.defaultVideo}?autoplay=0`
     return (
       <div>
@@ -74,6 +91,7 @@ class App extends Component {
           </iframe>
           <h2>{this.state.description}</h2>
         </div>
+        <RelatedVideos relatedVideos={this.state.relatedVideos} setVideo={this.setVideo} /> 
       </div>
     );
   }
