@@ -22,7 +22,7 @@ const SearchResults = (props) => {
                                     <td><h2 className="lead">{video.snippet.description}</h2></td>
                                     <td>
                                         <button>
-                                            <img onClick={() => props.setVideo(video)}
+                                            <img onClick={() => { props.setVideo(video) }} 
                                             src={video.snippet.thumbnails.default.url} />   
                                         </button>
                                     </td>

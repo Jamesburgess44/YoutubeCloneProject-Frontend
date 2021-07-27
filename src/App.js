@@ -15,7 +15,7 @@ class App extends Component {
     }
   }
 
-  getSearchResults = async searchTerm => {
+  getSearchResults = async (searchTerm) => {
     try {
       let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${searchTerm}&type=video&maxResults=5&key=${this.state.key}`)
       let tempVideoArray = response.data.items
