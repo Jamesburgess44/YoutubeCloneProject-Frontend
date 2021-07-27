@@ -3,7 +3,6 @@ import axios from 'axios';
 import NavBar from './Components/Navbar/navBar';
 import SearchBar from './Components/SearchBar/searchBar';
 import SearchResults from './Components/SearchResults/searchResults';
-import ChosenVideoPlayer from './Components/ChosenVideoPlayer/chosenVideoPlayer';
 
 class App extends Component {
   constructor(props) {
@@ -11,7 +10,8 @@ class App extends Component {
     this.state = { 
       searchResults: [], 
       selectedVideo: [],
-      key: 'AIzaSyC9cwy6-96d7rXbAtyRO5DkUyJ-y62rCNs'
+      defaultVideo: 'VE-_L3A45jo',
+      key: 'AIzaSyC9cwy6-96d7rXbAtyRO5DkUyJ-y62rCNs',
     }
   }
 
@@ -31,8 +31,8 @@ class App extends Component {
     this.setState({
       selectedVideo: video
     })
-    // Video object
-    this.props.playVideo(this.state.selectedVideo);
+    this.collapseSearchResults();
+    this.defineDefaultValue(video.id.videoId)
   }
 
   collapseSearchResults = () => {
@@ -41,8 +41,22 @@ class App extends Component {
     })
   }
 
+  defineDefaultValue = (id) => {
+    if (id === '') {
+      this.setState({
+        defaultVideo: 'VE-_L3A45jo'
+      })
+    }
+    else {
+      this.setState({
+        defaultVideo: id
+      })
+    }
+  }
+
   render() {
-    console.log(this.state.selectedVideo);
+    console.log(this.state.defaultVideo);
+    let url = `https://www.youtube.com/embed/${this.state.defaultVideo}?autoplay=0`
     return (
       <div>
         <NavBar />
@@ -52,8 +66,17 @@ class App extends Component {
         getSearchResults={this.getSearchResults} 
         />
         <SearchResults searchResults={this.state.searchResults} setVideo={this.setVideo} />
-        <ChosenVideoPlayer selectedVideo={this.state.selectedVideo} collapseSearchResults={this.collapseSearchResults} />
-    </div>
+        <div>
+          <iframe id="player" 
+          type="text/html" 
+          width="640" height="390"
+          src={url}
+          alt="Else Statement"
+          frameborder="0" > 
+          </iframe>
+          
+        </div>
+      </div>
     );
   }
 }

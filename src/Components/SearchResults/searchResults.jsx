@@ -23,7 +23,8 @@ const SearchResults = (props) => {
                                     <td>
                                         <button>
                                             <img onClick={() => { props.setVideo(video) }} 
-                                            src={video.snippet.thumbnails.default.url} />   
+                                            src={video.snippet.thumbnails.default.url} 
+                                            alt="A Thumbnail" />   
                                         </button>
                                     </td>
                                 </tr>
