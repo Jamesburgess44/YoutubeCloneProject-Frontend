@@ -1,29 +1,26 @@
 import React from 'react';
 
-const RelatedVideos = (props) => {
+const RelatedVideos = ({ setSelectedVideo, relatedVideos }) => {
     return (
         <React.Fragment>
             <div className="col d-flex justify-content-center">
-            <table>
+                <table>
                 <thead>
-                    <tr></tr>
-                    <tr>
-                        <th>Related Videos</th>
-                    </tr>
-                    <tr></tr>
+                    <tr>Related Videos</tr>
                 </thead>
                 <tbody>
                     <tr>
                     {
-                        props.relatedVideos.map((video) => {
+                        relatedVideos.map((video) => {
                             return(
                                 <React.Fragment key={video.id.videoId}>
                                 <tr>
                                     <td>
-                                        <img onClick={() => { props.setVideo(video) }} 
+                                        <img onClick={() => { setSelectedVideo(video)}} 
                                         src={video.snippet.thumbnails.default.url} 
                                         alt="A Thumbnail" />   
                                     </td>
+                                    <td><h1 className="lead">{video.snippet.title}</h1></td>
                                 </tr>
                                 </React.Fragment>
                             )
@@ -33,6 +30,7 @@ const RelatedVideos = (props) => {
                 </tbody>
             </table>
             </div>
+            
         </React.Fragment>
     );
 }

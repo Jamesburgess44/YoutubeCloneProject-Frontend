@@ -18,16 +18,12 @@ class AddComment extends Component {
     }
     handleSubmit = (event) => {
         event.preventDefault();
-        this.setState({
-            videoId: this.props.defautVideo,
-            userComment: '',
-            like: 0,
-            dislike: 0,
-        })
+        this.postComment(this.state);    
     }
-    postComment = async () => {
+
+    postComment = async comment => {
         try {
-            await axios.post(`http://127.0.0.1:8000/youtube_app/`)
+            await axios.post(`http://127.0.0.1:8000/youtube_app/`, comment)
         }
         catch (err){console.log(err)}
         this.props.commentTable()

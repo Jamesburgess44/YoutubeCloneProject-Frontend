@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 
 
-const SearchBar = (props) => {
-
-  const [searchRequest, setSearchRequest] = useState('');
+const SearchBar = ({ setSearchTerm }) => {
+  const [query, setQuery] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(searchRequest); // Hello, Hi, ...
-    props.getSearchResults(searchRequest); // Back to App.js
+    // console.log(query); // Hello, Hi, ...
+    setSearchTerm(query) // Back to App.js
   }
 
   return (
@@ -18,8 +17,8 @@ const SearchBar = (props) => {
           <input type="text" 
           name="searchRequest" 
           placeholder="Search..." 
-          onChange={e => setSearchRequest(e.target.value)} 
-          value={searchRequest} />
+          onChange={e => setQuery(e.target.value)} 
+          value={query} />
           <input type="submit" id="request" value="Search"></input>
         </form>
       </div>

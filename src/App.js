@@ -21,114 +21,98 @@
 //   we played around with the idea of having reply button in the original comment or spending some time researching the best way to make this user friendly and look 
 //   like other comment sections work in youtube or comparable applications. 
 
+// (5 points) As a user, I want to see a collection of videos related to my search. You can see a collection of videos related to the search, but it is a bit buggy. 
+// We think it may be a timing issue (getting data, but not all the time). It feels like data isn't being passed consistently.
 
-import React, { Component } from 'react';
+// (5 points) As a user, I want to see the title and description of the currently playing video. This was met, but due to previous bug, there are inconsistencies.
+
+// (5 points) As a user, I want to be able to select a video to be played from a list of related videos to my search. You can play a video, but there are bugs regarding
+// the reliability of consistently clicking/playing on new video icons. 
+
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import NavBar from './Components/Navbar/navBar';
 import SearchBar from './Components/SearchBar/searchBar';
 import SearchResults from './Components/SearchResults/searchResults';
+import DisplayVideo from './Components/DisplayVideo/displayVideo';
 import RelatedVideos from './Components/RelatedVideos/relatedVideos';
-import DisplayComments from './Components/DisplayComments/displayComments';
-import AddComment from './Components/AddComment/addComment';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { 
-      searchResults: [], 
-      selectedVideo: [],
-      relatedVideos: [],
-      allComments: [],
-      defaultVideo: 'VE-_L3A45jo',
-      title: '',
-      description: '',
-      key: 'AIzaSyAKepytxUmWxBY5Q5bdSatiMDLGhFI9o1I',
+
+export default function App() {
+  const defaultId = '5qap5aO4i9A';
+  const key = 'AIzaSyCvtDVHokDZ8G-pZq1U4IxHoTZkEv3oqoA';
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [selectedVideo, setSelectedVideo] = useState(
+    {
+      kind: '',
+      etag: '',
+      id: {
+        kind: '',
+        videoId: defaultId
+      },
+      snippet: {
+        title: 'Welcome To OurTube',
+        description: 'Enjoy'
+      }
     }
-  }
+  );
+  const [queryRelated, setQueryRelated] = useState('');
+  const [relatedVideos, setRelatedVideos] = useState([]);
+  // const [allComments, setAllComments] = useState([]);
+  // const [clickedResult, setClickedResult] = useState(false);
 
-  getSearchResults = async (searchTerm) => {
-    try {
-      let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${searchTerm}&type=video&maxResults=5&key=${this.state.key}`)
-      let tempVideoArray = response.data.items
-      this.setState({
-        searchResults: tempVideoArray
-      })
-    } catch (err) {
-      console.log(err);
-    } 
-  }
+  useEffect(
+    () => {
+      if (searchTerm !== '') {
+        axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${searchTerm}&type=video&maxResults=5&key=${key}`)
+        .then(response => setSearchResults(response.data.items)
+        )
+      } else {
+        setSearchResults([]);
+      }
+    }, [searchTerm])
 
-  getRelatedVideos = async (chosenVideoId) => {
-    try {
-      let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=5&relatedToVideoId=${chosenVideoId}&key=${this.state.key}`)
-      let tempVideoArray = response.data.items
-      this.setState({
-        relatedVideos: tempVideoArray
-      })
-    } catch (err) {
-      console.log(err);
-    } 
-  }
+  useEffect(
+    () => {
+      if (queryRelated !== '') {
+        axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${queryRelated}&type=video&maxResults=5&key=${key}`)
+        .then(response => setRelatedVideos(response.data.items)
+        )
+      } else {
+        setSearchResults([]);
+      }
+    }, [queryRelated])
 
-  setVideo = (video) => {
-    let id = video.id.videoId;
-    let a_title = video.snippet.title;
-    let des = video.snippet.description;
-    
-    this.setState({
-      selectedVideo: video,
-      defaultVideo: id,
-      title: a_title,
-      description: des
-    })
-    this.collapseSearchResults();
-    console.log(id);
-    console.log(a_title);
-    this.getRelatedVideos(video.id.videoId)
-  }
-
-  collapseSearchResults = () => {
-    this.setState({
-      searchResults: []
-    })
-  }
-
-  commentTable = async() => {
-    let response = await axios.get(`http://127.0.0.1:8000/youtube_app/`)
-        let temp = response.data
-        this.setState ({
-            allComments: temp,
-        });
-  }
-
-  render() {
-    let url = `https://www.youtube.com/embed/${this.state.defaultVideo}?autoplay=0`
-    return (
-      <React.Fragment>
-        <NavBar />
-        <SearchBar searchRequest={this.state.searchRequest}
-        handleChange={this.handleChange} 
-        handleSubmit={this.handleSubmit} 
-        getSearchResults={this.getSearchResults} 
-        />
-        <SearchResults searchResults={this.state.searchResults} setVideo={this.setVideo} />
-        <div>
-          <h1>{this.state.title}</h1>
-          <iframe id="player" 
-          type="text/html" 
-          width="640" height="390"
-          src={url}
-          alt="Else Statement"
-          frameborder="0" > 
-          </iframe>
-          <h2>{this.state.description}</h2>
-        </div>        
-        <AddComment commentTable={this.commentTable} defaultVideo={this.state.defaultVideo} />
-        <DisplayComments allComments={this.state.allComments}/>
-        <RelatedVideos relatedVideos={this.state.relatedVideos} setVideo={this.setVideo} /> 
-      </React.Fragment>
-    );
-  }
+    // {console.log(searchTerm)}
+    // {console.log(searchResults)}
+    // {console.log(selectedVideo)}
+  return (
+    <>
+      <NavBar />
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col d-flex justify-content-center align-items-center p-5">
+            <DisplayVideo selectedVideo={selectedVideo} defaultId={defaultId} setQueryRelated={setQueryRelated} />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col d-flex justify-content-center align-items-center p-2">
+            <SearchBar setSearchTerm={setSearchTerm} />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col col-sm-12 col-md-6 col-lg-6 p-5">
+            <SearchResults searchResults={searchResults} setSelectedVideo={setSelectedVideo} />
+          </div>
+          <div className="col col-sm-12 col-md-6 col-lg-6 p-5">
+            <RelatedVideos relatedVideos={relatedVideos} setSelectedVideo={setSelectedVideo}  />
+          </div>
+        </div>
+      
+        
+        
+      </div>
+    </>
+  )
 }
- 
-export default App;
