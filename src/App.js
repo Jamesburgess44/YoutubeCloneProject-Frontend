@@ -21,14 +21,6 @@
 //   we played around with the idea of having reply button in the original comment or spending some time researching the best way to make this user friendly and look 
 //   like other comment sections work in youtube or comparable applications. 
 
-// (5 points) As a user, I want to see a collection of videos related to my search. You can see a collection of videos related to the search, but it is a bit buggy. 
-// We think it may be a timing issue (getting data, but not all the time). It feels like data isn't being passed consistently.
-
-// (5 points) As a user, I want to see the title and description of the currently playing video. This was met, but due to previous bug, there are inconsistencies.
-
-// (5 points) As a user, I want to be able to select a video to be played from a list of related videos to my search. You can play a video, but there are bugs regarding
-// the reliability of consistently clicking/playing on new video icons. 
-
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import NavBar from './Components/Navbar/navBar';
