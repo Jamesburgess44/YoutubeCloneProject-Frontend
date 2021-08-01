@@ -6,7 +6,7 @@ const SearchResults = ({ searchResults, setSearchedVideo, searchedVideo }) => {
             <div className="col d-flex justify-content-center">
                 <table>
                 <thead>
-                    <tr>Search Results</tr>
+                    <tr className="display-5">Search Results</tr>
                 </thead>
                 <tbody>
                     <tr>
@@ -15,7 +15,9 @@ const SearchResults = ({ searchResults, setSearchedVideo, searchedVideo }) => {
                             return(
                                 <React.Fragment key={video.id.videoId}>
                                 <tr>
-                                    <td>
+                                    <td className="p-2"><p className="bold">{video.snippet.title}</p></td>
+                                    <td className="p-2"><p className="bold">{video.snippet.description}</p></td>
+                                    <td className="p-2">
                                         <img onClick={() => 
                                             { 
                                                 setSearchedVideo(
@@ -31,7 +33,6 @@ const SearchResults = ({ searchResults, setSearchedVideo, searchedVideo }) => {
                                         src={video.snippet.thumbnails.default.url}
                                         alt="A Thumbnail" />
                                     </td>
-                                    <td><h1 className="lead">{video.snippet.title}</h1></td>
                                 </tr>
                                 </React.Fragment>
                             )

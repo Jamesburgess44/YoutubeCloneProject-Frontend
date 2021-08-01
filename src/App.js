@@ -28,6 +28,7 @@ import SearchBar from './Components/SearchBar/searchBar';
 import SearchResults from './Components/SearchResults/searchResults';
 import RelatedVideos from './Components/RelatedVideos/relatedVideos';
 import DisplayVideo from './Components/DisplayVideo/displayVideo';
+import DisplayComments from './Components/DisplayComments/displayComments';
 
 
 
@@ -66,11 +67,12 @@ export default function App() {
   const [currentVideo, setCurrentVideo] = useState(
     {
       videoId: '5qap5aO4i9A', // response.data.items.id.videoId
-      title: '', // response.data.items.snippet.title
-      description: '', // response.data.items.snippet.description
+      title: 'Welcome To OurTube', // response.data.items.snippet.title
+      description: 'Enjoy', // response.data.items.snippet.description
       thumbnail: '', // response.data.items.snippet.thumbnails.default.url
     }
   );
+  const [currentVideoToCommentOn, setCurrentVideoToCommentOn] = useState({});
 
   useEffect(
     () => {
@@ -92,7 +94,7 @@ export default function App() {
   useEffect(
     () => {
     if (queryRelatedId !== '5qap5aO4i9A') {
-      axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${queryRelatedId}&type=video&maxResults=5&key=${key}`)
+      axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${queryRelatedId}&type=video&maxResults=8&key=${key}`)
       .then(response => setRelatedResults(response.data.items))
     }
   }, [queryRelatedId])
@@ -117,12 +119,15 @@ export default function App() {
     // {console.log(relatedVideo)}
   return (
     <>
-      
+      {console.log(currentVideoToCommentOn.title)}
       <NavBar />
       <div className="container-fluid">
         <div className="row">
           <div className="col d-flex justify-content-center align-items-center p-5">
-            <DisplayVideo currentVideo={currentVideo} defaultId={defaultId} />
+            <DisplayVideo currentVideo={currentVideo} defaultId={defaultId} setCurrentVideoToCommentOn={setCurrentVideoToCommentOn} />
+          </div>
+          <div className="col d-flex justify-content-center align-items-start p-4">
+            <DisplayComments />
           </div>
         </div>
         <div className="row">
@@ -130,13 +135,14 @@ export default function App() {
             <SearchBar setSearchTerm={setSearchTerm} />
           </div>
         </div>
-        <div className="row">
-          <div className="col col-sm-12 col-md-6 col-lg-6 p-5">
+        <div className="row p-5">
+          <div className="col col-sm-12 col-md-1 col-lg-1 p-5"></div>
+          <div className="col col-sm-12 col-md-5 col-lg-5 p-5">
             <SearchResults searchResults={searchResults} setSearchedVideo={setSearchedVideo} searchedVideo={searchedVideo} />
           </div>
-        </div>
-        <div className="col col-sm-12 col-md-6 col-lg-6 p-5">
-          <RelatedVideos relatedResults={relatedResults} setRelatedVideo={setRelatedVideo} relatedVideo={relatedVideo} />
+          <div className="col col-sm-12 col-md-6 col-lg-6 p-5">
+            <RelatedVideos relatedResults={relatedResults} setRelatedVideo={setRelatedVideo} relatedVideo={relatedVideo} />
+          </div>
         </div> 
       </div>
     </>

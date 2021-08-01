@@ -9,7 +9,7 @@ import Navbar from 'react-bootstrap/Navbar';
 function Navigation(){
     return (
         <Navbar bg="danger" expand="lg">
-        <Navbar.Brand className="display-1 p-2" href="#">OurTube</Navbar.Brand>
+        <Navbar.Brand className="display-4 p-2" href="/">OurTube</Navbar.Brand>
         {/*
         Will add Nav.Links in upcoming updates.
         <NavbarToggle  aria-controls="navbarScroll" />

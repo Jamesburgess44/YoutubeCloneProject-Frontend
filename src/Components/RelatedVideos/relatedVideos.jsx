@@ -11,7 +11,7 @@ const RelatedVideos = ({ relatedResults, setRelatedVideo, relatedVideo }) => {
             <div className="col d-flex justify-content-center">
                 <table>
                 <thead>
-                    <tr>Related Videos</tr>
+                    <tr className="display-5">Related Videos</tr>
                 </thead>
                 <tbody>
                     <tr>
@@ -20,7 +20,8 @@ const RelatedVideos = ({ relatedResults, setRelatedVideo, relatedVideo }) => {
                             return(
                                 <React.Fragment key={video.id.videoId}>
                                 <tr>
-                                    <td>
+                                    <td className="p-2"><p className="bold">{video.snippet.title}</p></td>
+                                    <td className="p-2">
                                         <img onClick={() => 
                                             { 
                                                 setRelatedVideo(
@@ -36,7 +37,6 @@ const RelatedVideos = ({ relatedResults, setRelatedVideo, relatedVideo }) => {
                                         src={video.snippet.thumbnails.default.url}
                                         alt="A Thumbnail" />
                                     </td>
-                                    <td><p className="lead">{video.snippet.title}</p></td>
                                 </tr>
                                 </React.Fragment>
                             )

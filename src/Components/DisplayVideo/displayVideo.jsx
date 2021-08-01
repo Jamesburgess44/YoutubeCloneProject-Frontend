@@ -1,25 +1,24 @@
 import React from 'react';
 
-export default function DisplayVideo({ currentVideo, defaultId }) { //, setQueryRelated 
+export default function DisplayVideo({ currentVideo, defaultId, setCurrentVideoToCommentOn }) { //, setQueryRelated 
     let url = '';
     if (currentVideo.title === "Welcome To OurTube") {
         url = `https://www.youtube.com/embed/${defaultId}?autoplay=0`
-        // setQueryRelated(defaultId);
     }
     else {
         url = `https://www.youtube.com/embed/${currentVideo.videoId}?autoplay=0`
-        // setQueryRelated(currentVideo.videoId)
+        setCurrentVideoToCommentOn(currentVideo);
     }
     return (
         <>
             <div className="container-fluid">
                 <div className="row">
-                    <div className="col d-flex justify-content-center align-items-center">
-                        <h1 class="display-5 text-center p-2">{currentVideo.title}</h1>
+                    <div className="col d-flex justify-content-center align-items-center p-4">
+                        <h1 class="display-3 text-center p-2">{currentVideo.title}</h1>
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col d-flex justify-content-center align-items-center">
+                    <div className="col d-flex justify-content-center align-items-center p-4">
                         <iframe id="player" 
                             type="text/html" 
                             width="640" height="390"
@@ -31,7 +30,7 @@ export default function DisplayVideo({ currentVideo, defaultId }) { //, setQuery
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col d-flex justify-content-center align-items-center">
+                    <div className="col d-flex justify-content-center align-items-center p-4">
                         <p class="lead text-center">{currentVideo.description}</p>
                     </div>
                 </div>
