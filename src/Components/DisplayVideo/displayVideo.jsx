@@ -1,21 +1,21 @@
 import React from 'react';
 
-export default function DisplayVideo({ selectedVideo, defaultId, setQueryRelated }) {
+export default function DisplayVideo({ currentVideo, defaultId }) { //, setQueryRelated 
     let url = '';
-    if (selectedVideo.snippet.title === "Welcome To OurTube") {
+    if (currentVideo.title === "Welcome To OurTube") {
         url = `https://www.youtube.com/embed/${defaultId}?autoplay=0`
-        setQueryRelated(defaultId);
+        // setQueryRelated(defaultId);
     }
     else {
-        url = `https://www.youtube.com/embed/${selectedVideo.id.videoId}?autoplay=0`
-        setQueryRelated(selectedVideo.id.videoId)
+        url = `https://www.youtube.com/embed/${currentVideo.videoId}?autoplay=0`
+        // setQueryRelated(currentVideo.videoId)
     }
     return (
         <>
-            <div class="container-fluid">
+            <div className="container-fluid">
                 <div className="row">
                     <div className="col d-flex justify-content-center align-items-center">
-                        <h1 class="display-5 text-center p-2">{selectedVideo.snippet.title}</h1>
+                        <h1 class="display-5 text-center p-2">{currentVideo.title}</h1>
                     </div>
                 </div>
                 <div className="row">
@@ -24,6 +24,7 @@ export default function DisplayVideo({ selectedVideo, defaultId, setQueryRelated
                             type="text/html" 
                             width="640" height="390"
                             src={url}
+                            title={currentVideo.title}
                             alt="Else Statement"
                             frameborder="0" > 
                         </iframe>
@@ -31,7 +32,7 @@ export default function DisplayVideo({ selectedVideo, defaultId, setQueryRelated
                 </div>
                 <div className="row">
                     <div className="col d-flex justify-content-center align-items-center">
-                        <p class="lead text-center">{selectedVideo.snippet.description}</p>
+                        <p class="lead text-center">{currentVideo.description}</p>
                     </div>
                 </div>
             </div>

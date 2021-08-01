@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SearchResults = ({ searchResults, setSelectedVideo }) => {
+const SearchResults = ({ searchResults, setSearchedVideo, searchedVideo }) => {
     return (
         <React.Fragment>
             <div className="col d-flex justify-content-center">
@@ -16,9 +16,20 @@ const SearchResults = ({ searchResults, setSelectedVideo }) => {
                                 <React.Fragment key={video.id.videoId}>
                                 <tr>
                                     <td>
-                                        <img onClick={() => { setSelectedVideo(video)}} 
-                                        src={video.snippet.thumbnails.default.url} 
-                                        alt="A Thumbnail" />   
+                                        <img onClick={() => 
+                                            { 
+                                                setSearchedVideo(
+                                                    {
+                                                        ...searchedVideo, 
+                                                        videoId: video.id.videoId,
+                                                        title: video.snippet.title,
+                                                        description: video.snippet.description,
+                                                        thumbnail: video.snippet.thumbnails.default.url
+                                                    }
+                                                )
+                                            }} 
+                                        src={video.snippet.thumbnails.default.url}
+                                        alt="A Thumbnail" />
                                     </td>
                                     <td><h1 className="lead">{video.snippet.title}</h1></td>
                                 </tr>

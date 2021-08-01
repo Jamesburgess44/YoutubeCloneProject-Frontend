@@ -26,40 +26,57 @@ import React, { useState, useEffect } from 'react';
 import NavBar from './Components/Navbar/navBar';
 import SearchBar from './Components/SearchBar/searchBar';
 import SearchResults from './Components/SearchResults/searchResults';
-import DisplayVideo from './Components/DisplayVideo/displayVideo';
 import RelatedVideos from './Components/RelatedVideos/relatedVideos';
+import DisplayVideo from './Components/DisplayVideo/displayVideo';
+
 
 
 export default function App() {
+  const key = 'AIzaSyB-T7mqOnmmv07uHHhVDCJiucPORnEBRW0';
   const defaultId = '5qap5aO4i9A';
-  const key = 'AIzaSyCvtDVHokDZ8G-pZq1U4IxHoTZkEv3oqoA';
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const [selectedVideo, setSelectedVideo] = useState(
+  const [searchedVideo, setSearchedVideo] = useState(
     {
-      kind: '',
-      etag: '',
-      id: {
-        kind: '',
-        videoId: defaultId
-      },
-      snippet: {
-        title: 'Welcome To OurTube',
-        description: 'Enjoy'
-      }
+      videoId: '5qap5aO4i9A', // response.data.items.id.videoId
+      title: '', // response.data.items.snippet.title
+      description: '', // response.data.items.snippet.description
+      thumbnail: '', // response.data.items.snippet.thumbnails.default.url
     }
   );
-  const [queryRelated, setQueryRelated] = useState('');
-  const [relatedVideos, setRelatedVideos] = useState([]);
-  // const [allComments, setAllComments] = useState([]);
-  // const [clickedResult, setClickedResult] = useState(false);
+  const [queryRelatedId, setQueryRelatedId] = useState('5qap5aO4i9A');
+  const [relatedResults, setRelatedResults] = useState(
+    [
+      {
+        videoId: '5qap5aO4i9A', // response.data.items.id.videoId
+        title: '', // response.data.items.snippet.title
+        description: '', // response.data.items.snippet.description
+        thumbnail: '', // response.data.items.snippet.thumbnails.default.url
+      }
+    ]
+  );
+  const [relatedVideo, setRelatedVideo] = useState(
+    {
+      videoId: '5qap5aO4i9A', // response.data.items.id.videoId
+      title: '', // response.data.items.snippet.title
+      description: '', // response.data.items.snippet.description
+      thumbnail: '', // response.data.items.snippet.thumbnails.default.url
+    }
+  )
+  const [currentVideo, setCurrentVideo] = useState(
+    {
+      videoId: '5qap5aO4i9A', // response.data.items.id.videoId
+      title: '', // response.data.items.snippet.title
+      description: '', // response.data.items.snippet.description
+      thumbnail: '', // response.data.items.snippet.thumbnails.default.url
+    }
+  );
 
   useEffect(
     () => {
       if (searchTerm !== '') {
         axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${searchTerm}&type=video&maxResults=5&key=${key}`)
-        .then(response => setSearchResults(response.data.items)
-        )
+        .then(response => setSearchResults(response.data.items))
       } else {
         setSearchResults([]);
       }
@@ -67,25 +84,45 @@ export default function App() {
 
   useEffect(
     () => {
-      if (queryRelated !== '') {
-        axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${queryRelated}&type=video&maxResults=5&key=${key}`)
-        .then(response => setRelatedVideos(response.data.items)
-        )
-      } else {
-        setSearchResults([]);
-      }
-    }, [queryRelated])
+    if (searchedVideo !== {}) {
+      setQueryRelatedId(searchedVideo.videoId);
+    }
+  }, [searchedVideo])
+
+  useEffect(
+    () => {
+    if (queryRelatedId !== '5qap5aO4i9A') {
+      axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${queryRelatedId}&type=video&maxResults=5&key=${key}`)
+      .then(response => setRelatedResults(response.data.items))
+    }
+  }, [queryRelatedId])
+
+  useEffect(() => {
+    if (searchedVideo.videoId !== '5qap5aO4i9A') {
+      setCurrentVideo(searchedVideo);
+    }
+  },[searchedVideo])
+
+  useEffect(() => {
+    if (relatedVideo.videoId !== '5qap5aO4i9A') {
+      setCurrentVideo(relatedVideo);
+    }
+  }, [relatedVideo])
 
     // {console.log(searchTerm)}
     // {console.log(searchResults)}
-    // {console.log(selectedVideo)}
+    // console.log(searchedVideo)}
+    // {console.log(queryRelatedId)}
+    // {console.log(relatedResults)}
+    // {console.log(relatedVideo)}
   return (
     <>
+      
       <NavBar />
       <div className="container-fluid">
         <div className="row">
           <div className="col d-flex justify-content-center align-items-center p-5">
-            <DisplayVideo selectedVideo={selectedVideo} defaultId={defaultId} setQueryRelated={setQueryRelated} />
+            <DisplayVideo currentVideo={currentVideo} defaultId={defaultId} />
           </div>
         </div>
         <div className="row">
@@ -95,16 +132,15 @@ export default function App() {
         </div>
         <div className="row">
           <div className="col col-sm-12 col-md-6 col-lg-6 p-5">
-            <SearchResults searchResults={searchResults} setSelectedVideo={setSelectedVideo} />
-          </div>
-          <div className="col col-sm-12 col-md-6 col-lg-6 p-5">
-            <RelatedVideos relatedVideos={relatedVideos} setSelectedVideo={setSelectedVideo}  />
+            <SearchResults searchResults={searchResults} setSearchedVideo={setSearchedVideo} searchedVideo={searchedVideo} />
           </div>
         </div>
-      
-        
-        
+        <div className="col col-sm-12 col-md-6 col-lg-6 p-5">
+          <RelatedVideos relatedResults={relatedResults} setRelatedVideo={setRelatedVideo} relatedVideo={relatedVideo} />
+        </div> 
       </div>
     </>
   )
 }
+
+// const [allComments, setAllComments] = useState([]);

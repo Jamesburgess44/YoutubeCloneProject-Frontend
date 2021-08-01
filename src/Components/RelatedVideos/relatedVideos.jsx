@@ -1,6 +1,11 @@
 import React from 'react';
 
-const RelatedVideos = ({ setSelectedVideo, relatedVideos }) => {
+const RelatedVideos = ({ relatedResults, setRelatedVideo, relatedVideo }) => {
+    let filteredRelatedResults = relatedResults.filter((video) => {
+        if (video.snippet !== undefined) {
+            return video;
+        }
+    })
     return (
         <React.Fragment>
             <div className="col d-flex justify-content-center">
@@ -11,16 +16,27 @@ const RelatedVideos = ({ setSelectedVideo, relatedVideos }) => {
                 <tbody>
                     <tr>
                     {
-                        relatedVideos.map((video) => {
+                        filteredRelatedResults.map((video) => {
                             return(
                                 <React.Fragment key={video.id.videoId}>
                                 <tr>
                                     <td>
-                                        <img onClick={() => { setSelectedVideo(video)}} 
-                                        src={video.snippet.thumbnails.default.url} 
-                                        alt="A Thumbnail" />   
+                                        <img onClick={() => 
+                                            { 
+                                                setRelatedVideo(
+                                                    {
+                                                        ...relatedVideo, 
+                                                        videoId: video.id.videoId,
+                                                        title: video.snippet.title,
+                                                        description: video.snippet.description,
+                                                        thumbnail: video.snippet.thumbnails.default.url
+                                                    }
+                                                )
+                                            }} 
+                                        src={video.snippet.thumbnails.default.url}
+                                        alt="A Thumbnail" />
                                     </td>
-                                    <td><h1 className="lead">{video.snippet.title}</h1></td>
+                                    <td><p className="lead">{video.snippet.title}</p></td>
                                 </tr>
                                 </React.Fragment>
                             )
