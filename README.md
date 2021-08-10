@@ -2,6 +2,8 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+You can view the work in progress here: https://ba-calderonmorales.github.io/YoutubeCloneProject-Frontend/
+
 ## Available Scripts
 
 In the project directory, you can run:
