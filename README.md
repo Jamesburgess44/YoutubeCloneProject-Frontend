@@ -4,6 +4,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 You can view the work in progress here: https://ba-calderonmorales.github.io/YoutubeCloneProject-Frontend/
 
+![image](https://user-images.githubusercontent.com/62074841/132972263-2e59c72c-a2a2-48a4-af6a-26cb5e5ce84e.png)
+
 ## Available Scripts
 
 In the project directory, you can run:
