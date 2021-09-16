@@ -84,7 +84,8 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img href="https://user-images.githubusercontent.com/62074841/133490662-1c50786a-094e-4a9f-9eb9-d02b777256f2.png" />
+![image](https://user-images.githubusercontent.com/62074841/133553117-c1845a74-eb03-4cf5-894e-d83e01fe5842.png)
+
 <p>
  This project was built by two people, James Burgess and me, during our time at DevCodeCamp. We built this web application 
  using React in conjunction with Django REST Framework. This app is also using YouTube V3 API to search for videos that are 
@@ -181,6 +182,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
+James Burgess - [James Burgess](https://www.linkedin.com/in/james-burgess-278350214) - jamesburgess44@yahoo.com
 Brandon Calderon-Morales - [@BrandonACalder1](https://twitter.com/BrandonACalder1) - bacm640@gmail.com
 
 Frontend: [YouTube Clone Frontend](https://github.com/BA-CalderonMorales/YoutubeCloneProject-Frontend)
@@ -191,8 +193,7 @@ Backend: [YouTube Clone Backend](https://github.com/BA-CalderonMorales/YouTubeCl
 ## Acknowledgements
 
 * DevCodeCamp
-* My Family
-* All the wonderful (and free) resources I found on the internet.
-* My pair programming partner: James Burgess. See his profile here by clicking on this <a href="https://github.com/Jamesburgess44">link</a>.
+* Our drive
+* Our passion to get the job done
 
 <a href="#top">Back To Top</a>
